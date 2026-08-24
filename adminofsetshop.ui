@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AdminOfSetShop</class>
+ <widget class="QDialog" name="AdminOfSetShop">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* 弹窗顶层背景（替换成你自己的对象名） */
+#AddGoodsDialog
+{
+    background-image: url(:/res/LoginBackgroundImage.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* 承载所有控件的磨砂容器 */
+#addGoodsContainer
+{
+    background-color:rgba(255,255,255,160);
+    border-radius:16px;
+}
+
+/* 文字标签：商品名称、单价、库存、商品信息 */
+QLabel
+{
+    font-size:16px;
+    color:#222222;
+    background-color:transparent;
+}
+
+/* 四个输入框 QLineEdit */
+QLineEdit
+{
+    border:1px solid rgba(160,180,200,130);
+    border-radius:8px;
+    padding:6px 10px;
+    background-color:rgba(255,255,255,200);
+    font-size:14px;
+}
+QLineEdit:focus
+{
+    border:1px solid rgba(120,140,160,170);
+    background-color:rgba(255,255,255,240);
+}
+
+/* 按钮：清空、确认添加 */
+QPushButton
+{
+    background-color: rgba(255,255,255,140);
+    color:#222222;
+    border:1px solid rgba(170,185,200,120);
+    border-radius:10px;
+    padding:8px 16px;
+    font-size:15px;
+}
+QPushButton:hover
+{
+    background-color:rgba(255,255,255,200);
+}
+QPushButton:pressed
+{
+    background-color:rgba(230,238,245,210);
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="nameLabel">
+       <property name="text">
+        <string>商品名称：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="nameLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="priceLabel">
+       <property name="text">
+        <string>单价：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="priceLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="numberLabel">
+       <property name="text">
+        <string>库存：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="numberLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="informationLabel">
+       <property name="text">
+        <string>商品信息：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="informationLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QPushButton" name="clearBtn">
+       <property name="text">
+        <string>清空</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="confirmBtn">
+       <property name="text">
+        <string>确认更新</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

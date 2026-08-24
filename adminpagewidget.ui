@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AdminPageWidget</class>
+ <widget class="QWidget" name="AdminPageWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1000</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>NexCard · 新卡智联</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QWidget" name="topWidget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="titleLabel">
+        <property name="styleSheet">
+         <string notr="true">QLabel#titleLabel
+{
+    font-size:36px;
+    color:#181818;
+}</string>
+        </property>
+        <property name="text">
+         <string>新卡智联</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>777</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="welLabel">
+        <property name="styleSheet">
+         <string notr="true">QLabel
+{
+    font-size:15px;
+    color:#222222;
+    background-color:transparent;
+}</string>
+        </property>
+        <property name="text">
+         <string>您好</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="exitBtn">
+        <property name="text">
+         <string>安全退出</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="middleWidget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QDockWidget" name="ngtDockWidget">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>139</height>
+         </size>
+        </property>
+        <property name="allowedAreas">
+        <set>Qt::LeftDockWidgetArea</set>
+       </property>
+       <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>524287</height>
+         </size>
+        </property>
+        <property name="windowTitle">
+         <string>新卡智联</string>
+        </property>
+        <widget class="QWidget" name="ngtDockWidgetContents">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QTreeWidget" name="ngtTreeWidget">
+            <property name="expandsOnDoubleClick">
+             <bool>true</bool>
+            </property>
+            <attribute name="headerVisible">
+             <bool>false</bool>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>一卡通管理</string>
+             </property>
+            </column>
+            <item>
+             <property name="text">
+              <string>员工信息管理</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>考勤管理</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>异常反馈箱</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>商品管理</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>管理员信息管理</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>管理员列表</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>管理员注册</string>
+              </property>
+             </item>
+            </item>
+            <item>
+             <property name="text">
+              <string>串口配置</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTabWidget" name="pageTabWidget">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <property name="documentMode">
+         <bool>true</bool>
+        </property>
+        <property name="tabsClosable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="pageTab">
+        <attribute name="title">
+         <string>欢迎使用</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="welcomeLayout">
+         <property name="leftMargin">
+          <number>24</number>
+         </property>
+         <property name="topMargin">
+          <number>24</number>
+         </property>
+         <property name="rightMargin">
+          <number>24</number>
+         </property>
+         <property name="bottomMargin">
+          <number>24</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="welcomeTitleLabel">
+           <property name="text">
+            <string>欢迎使用 新卡智联</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="cardsLayout">
+           <item>
+            <widget class="QFrame" name="identityCard">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <layout class="QVBoxLayout" name="identityLayout">
+              <item>
+               <widget class="QLabel" name="identityKeyLabel">
+                <property name="text">
+                 <string>当前身份</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="identityValueLabel">
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="serialCard">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <layout class="QVBoxLayout" name="serialLayout">
+              <item>
+               <widget class="QLabel" name="serialKeyLabel">
+                <property name="text">
+                 <string>串口状态</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="serialValueLabel">
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="timeCard">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <layout class="QVBoxLayout" name="timeLayout">
+              <item>
+               <widget class="QLabel" name="timeKeyLabel">
+                <property name="text">
+                 <string>系统时间</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="timeValueLabel">
+                <property name="text">
+                 <string>--:--:--</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="welcomeSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="bottomWidget" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

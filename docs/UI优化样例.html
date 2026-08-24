@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexCard UI 优化样例 · 新卡智联</title>
+<style>
+  :root{
+    --primary:#4287d8;
+    --primary-dark:#3476c2;
+    --primary-light:#e8f1fb;
+    --success:#27ae60;
+    --success-bg:#e9f8f0;
+    --warning:#f0ad4e;
+    --danger:#d9534f;
+    --danger-bg:#fdeeee;
+    --info:#5b9bd5;
+    --info-bg:#edf4fb;
+    --text-1:#222222;
+    --text-2:#666666;
+    --text-3:#999999;
+    --card-bg:rgba(255,255,255,0.86);
+    --border:rgba(170,185,200,0.55);
+    --radius:10px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:"Microsoft YaHei UI","Microsoft YaHei","PingFang SC",sans-serif;
+    color:var(--text-1);
+    background:
+      radial-gradient(1200px 500px at 15% -10%, #e9f2fc 0%, transparent 55%),
+      radial-gradient(1000px 460px at 110% 0%, #eef6fb 0%, transparent 50%),
+      linear-gradient(180deg,#f4f8fc 0%, #e9eef5 100%);
+    padding:34px 26px 60px;
+    min-height:100vh;
+  }
+  .page-head{max-width:1180px;margin:0 auto 26px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .page-head h1{font-size:24px;letter-spacing:.5px;}
+  .page-head h1 span{color:var(--primary);}
+  .page-head .sub{color:var(--text-2);font-size:13px;margin-top:6px;}
+  .badge-tag{display:inline-block;background:#fff;border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--text-2);}
+  .section{max-width:1180px;margin:0 auto 44px;}
+  .section-title{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .section-title .dot{width:8px;height:22px;border-radius:4px;background:var(--primary);}
+  .section-title h2{font-size:17px;}
+  .section-title .note{color:var(--text-3);font-size:12px;margin-left:4px;}
+
+  /* ============ 登录页 ============ */
+  .login-stage{
+    background:
+      linear-gradient(120deg, rgba(70,130,205,0.16), rgba(140,180,230,0.12)),
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><circle cx="8" cy="8" r="1.4" fill="%23ffffff" opacity="0.35"/></svg>');
+    border-radius:16px;border:1px solid var(--border);
+    padding:44px 20px;display:flex;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+  }
+  .login-window{
+    width:430px;background:var(--card-bg);border:1px solid var(--border);
+    border-radius:16px;padding:26px 32px 30px;
+    box-shadow:0 18px 50px rgba(60,90,130,.16);
+  }
+  .login-brand{text-align:center;margin-bottom:18px;}
+  .login-brand .logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#4287d8,#5b9bd5);color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;box-shadow:0 6px 14px rgba(66,135,216,.35);}
+  .login-brand h3{font-size:20px;letter-spacing:2px;}
+  .login-brand p{color:var(--text-3);font-size:12px;margin-top:3px;}
+  .login-tabs{display:flex;background:#f2f6fb;border-radius:10px;padding:4px;margin-bottom:20px;}
+  .login-tabs label{flex:1;text-align:center;padding:8px 0;border-radius:8px;font-size:13px;cursor:pointer;color:var(--text-2);transition:.2s;}
+  .login-tabs input{display:none;}
+  .login-tabs input:checked+label{background:#fff;color:var(--primary);font-weight:600;box-shadow:0 2px 8px rgba(66,135,216,.18);}
+  .login-panel{display:none;}
+  .login-panel.active{display:block;animation:fade .25s;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;}}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:12px;color:var(--text-2);margin-bottom:6px;}
+  .input-box{display:flex;align-items:center;gap:9px;border:1px solid #c9d8ea;border-radius:10px;padding:0 12px;background:#fff;transition:.2s;}
+  .input-box:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(66,135,216,.14);}
+  .input-box svg{width:17px;height:17px;stroke:#8aa5c4;flex-shrink:0;}
+  .input-box input{border:none;outline:none;width:100%;padding:11px 0;font-size:14px;background:transparent;color:var(--text-1);}
+  .input-box input:read-only{color:var(--text-3);}
+  .btn-primary{width:100%;background:linear-gradient(135deg,#4287d8,#3476c2);color:#fff;border:none;border-radius:10px;padding:12px;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:4px;box-shadow:0 6px 16px rgba(66,135,216,.32);transition:.2s;}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 9px 20px rgba(66,135,216,.38);}
+  .btn-primary:active{transform:translateY(0);}
+  .card-hint{text-align:center;color:var(--text-3);font-size:12px;margin-top:12px;}
+  .card-hint b{color:var(--primary);}
+
+  /* ============ 主控页 ============ */
+  .app-window{
+    background:var(--card-bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;
+    box-shadow:0 18px 50px rgba(60,90,130,.14);
+  }
+  .app-top{display:flex;align-items:center;gap:14px;padding:13px 20px;background:rgba(255,255,255,.75);border-bottom:1px solid var(--border);}
+  .app-top .brand{display:flex;align-items:center;gap:9px;}
+  .app-top .brand .logo-sm{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#4287d8,#5b9bd5);color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .app-top .brand b{font-size:16px;}
+  .app-top .spacer{flex:1;}
+  .who{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2);}
+  .who .avatar{width:28px;height:28px;border-radius:50%;background:var(--primary-light);color:var(--primary);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px;}
+  .lvl-badge{font-size:11px;padding:3px 9px;border-radius:12px;font-weight:600;}
+  .lvl-1{background:#fff1f0;color:#d9534f;border:1px solid #f5c6c4;}
+  .lvl-2{background:var(--info-bg);color:#3476c2;border:1px solid #bcd6ee;}
+  .lvl-3{background:#f3f5f7;color:var(--text-2);border:1px solid #d9dfe6;}
+  .btn-quit{border:1px solid var(--border);background:#fff;border-radius:8px;padding:7px 16px;font-size:13px;color:var(--text-1);cursor:pointer;transition:.2s;}
+  .btn-quit:hover{border-color:var(--danger);color:var(--danger);}
+  .app-body{display:flex;min-height:430px;}
+  .sidebar{width:196px;background:rgba(255,255,255,.65);border-right:1px solid var(--border);padding:12px 10px;}
+  .menu-group{margin-bottom:6px;}
+  .menu-title{font-size:11px;color:var(--text-3);padding:8px 10px 5px;letter-spacing:1px;}
+  .menu-item{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:13px;color:var(--text-1);cursor:pointer;transition:.15s;}
+  .menu-item svg{width:16px;height:16px;stroke:#7d97b6;flex-shrink:0;}
+  .menu-item:hover{background:rgba(240,246,253,.9);}
+  .menu-item.active{background:var(--primary-light);color:var(--primary);font-weight:600;box-shadow:inset 3px 0 0 var(--primary);}
+  .menu-item.active svg{stroke:var(--primary);}
+  .menu-sub{margin-left:14px;border-left:1px solid #dbe4ee;padding-left:8px;}
+  .menu-sub .menu-item{padding:7px 10px;font-size:12.5px;}
+  .menu-sub .menu-item.active{box-shadow:inset 2px 0 0 var(--primary);}
+  .menu-sub .menu-item.locked{color:var(--text-3);position:relative;}
+  .menu-sub .menu-item.locked::after{content:"三级不可见";position:absolute;right:8px;font-size:10px;color:var(--danger);background:var(--danger-bg);border-radius:8px;padding:1px 6px;}
+  .main-area{flex:1;padding:18px;background:rgba(250,252,255,.55);}
+
+  /* 欢迎面板 */
+  .welcome-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;}
+  .wc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;}
+  .wc .k{font-size:12px;color:var(--text-3);}
+  .wc .v{font-size:22px;font-weight:700;margin-top:6px;color:var(--text-1);}
+  .wc .v small{font-size:12px;color:var(--text-3);font-weight:400;margin-left:4px;}
+  .wc .v.blue{color:var(--primary);}
+  .panel{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .panel-head b{font-size:14px;}
+  .btn-ghost{border:1px solid var(--border);background:#fff;border-radius:8px;padding:6px 14px;font-size:12.5px;cursor:pointer;color:var(--text-1);transition:.2s;}
+  .btn-ghost:hover{border-color:var(--primary);color:var(--primary);}
+  .btn-danger-ghost{border:1px solid #f3c1bf;background:#fff;border-radius:8px;padding:6px 14px;font-size:12.5px;cursor:pointer;color:var(--danger);transition:.2s;}
+  .btn-danger-ghost:hover{background:var(--danger-bg);}
+
+  /* 表格 */
+  table.grid{width:100%;border-collapse:collapse;font-size:13px;}
+  table.grid thead th{background:#f2f7fc;color:#3a4a5d;text-align:left;padding:10px 12px;font-weight:600;border-bottom:1px solid var(--border);}
+  table.grid tbody td{padding:9px 12px;border-bottom:1px solid #eef2f7;color:var(--text-1);}
+  table.grid tbody tr:nth-child(even){background:#f8fbfe;}
+  table.grid tbody tr:hover{background:var(--primary-light);}
+  .st{font-size:12px;padding:3px 10px;border-radius:12px;font-weight:600;}
+  .st-in{background:var(--success-bg);color:var(--success);}
+  .st-out{background:var(--info-bg);color:#3476c2;}
+  .st-late{background:var(--danger-bg);color:var(--danger);}
+  .num-ok{color:var(--success);font-weight:600;}
+  .num-warn{color:var(--warning);font-weight:600;}
+  .num-out{color:var(--danger);font-weight:700;}
+  .chk{width:16px;height:16px;accent-color:var(--primary);cursor:pointer;}
+  .search{display:flex;align-items:center;gap:8px;border:1px solid #c9d8ea;border-radius:8px;background:#fff;padding:0 10px;width:180px;}
+  .search svg{width:14px;height:14px;stroke:#8aa5c4;}
+  .search input{border:none;outline:none;width:100%;padding:7px 0;font-size:12.5px;background:transparent;}
+  .toolbar{display:flex;align-items:center;gap:9px;margin-bottom:12px;flex-wrap:wrap;}
+
+  /* 弹窗 */
+  .dlg-row{display:flex;gap:22px;flex-wrap:wrap;}
+  .dlg{width:330px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 20px 60px rgba(40,60,90,.22);overflow:hidden;}
+  .dlg-body{padding:20px 22px 8px;display:flex;gap:12px;}
+  .dlg-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .dlg-icon svg{width:21px;height:21px;}
+  .dlg-icon.ok{background:var(--success-bg);color:var(--success);}
+  .dlg-icon.warn{background:#fdf3e3;color:var(--warning);}
+  .dlg-icon.info{background:var(--info-bg);color:var(--primary);}
+  .dlg-title{font-size:14.5px;font-weight:700;margin-bottom:5px;}
+  .dlg-text{font-size:12.5px;color:var(--text-2);line-height:1.7;}
+  .dlg-btns{padding:14px 22px;display:flex;justify-content:flex-end;gap:9px;background:#fafcff;border-top:1px solid #eef2f7;}
+  .btn{font-size:13px;padding:7px 18px;border-radius:8px;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text-1);transition:.2s;}
+  .btn:hover{background:#f2f7fc;}
+  .btn.solid{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600;}
+  .btn.solid:hover{background:var(--primary-dark);}
+  .dlg-form{padding:2px 22px 0;}
+  .dlg-form .row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .dlg-form .row label{font-size:13px;color:var(--text-2);width:76px;flex-shrink:0;}
+  .sel{border:1px solid #c9d8ea;border-radius:8px;padding:8px 10px;font-size:13px;outline:none;background:#fff;color:var(--text-1);flex:1;}
+  .sel:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(66,135,216,.12);}
+
+  /* 色板 */
+  .palette{display:flex;gap:14px;flex-wrap:wrap;}
+  .sw{flex:1;min-width:110px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;}
+  .sw .chip{height:44px;border-radius:9px;margin-bottom:8px;}
+  .sw .name{font-size:12.5px;font-weight:600;}
+  .sw .hex{font-size:11px;color:var(--text-3);margin-top:3px;}
+  .foot{max-width:1180px;margin:0 auto;color:var(--text-3);font-size:12px;text-align:center;padding-top:10px;}
+  @media (max-width:860px){.welcome-cards{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div>
+    <h1>NexCard <span>UI 优化样例</span> · 新卡智联</h1>
+    <div class="sub">基于《UI优化方案.md》的高保真原型 —— 统一设计 Token · 卡片化登录 · 状态着色 · 图标菜单 · 身份徽章</div>
+  </div>
+  <span class="badge-tag">Design Token 驱动 · 玻璃质感 · 浅色主题</span>
+</div>
+
+<!-- ============ 登录页 ============ -->
+<div class="section">
+  <div class="section-title"><span class="dot"></span><h2>① 登录页（卡片化 + 图标 + 主色按钮 + 回车提交）</h2><span class="note">优化前：绝对定位、固定 600×400、控件裸奔</span></div>
+  <div class="login-stage">
+    <div class="login-window">
+      <div class="login-brand">
+        <div class="logo">N</div>
+        <h3>新卡智联</h3>
+        <p>NexCard · 企业一卡通考勤系统</p>
+      </div>
+      <div class="login-tabs">
+        <input type="radio" name="ltab" id="t1" checked>
+        <label for="t1">刷卡登录</label>
+        <input type="radio" name="ltab" id="t2">
+        <label for="t2">管理员登录</label>
+        <input type="radio" name="ltab" id="t3">
+        <label for="t3">员工注册</label>
+      </div>
+      <div class="login-panel active" id="p1">
+        <div class="field">
+          <label>卡号（请刷卡自动识别）</label>
+          <div class="input-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
+            <input value="c1-70-74-6" readonly>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="alert('样例：打卡成功！✓ 签到 08:56:32（绿色状态已在表格中着色）')">登 录</button>
+        <div class="card-hint">刷卡后自动填入卡号 · 未注册卡将被拦截提示</div>
+      </div>
+      <div class="login-panel" id="p2">
+        <div class="field">
+          <label>用户名</label>
+          <div class="input-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"/></svg>
+            <input placeholder="请输入用户名" value="root">
+          </div>
+        </div>
+        <div class="field">
+          <label>密码</label>
+          <div class="input-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            <input type="password" placeholder="请输入密码" value="123456">
+          </div>
+        </div>
+        <button class="btn-primary" onclick="alert('样例：登录成功，欢迎您，root（一级管理员）')">登 录</button>
+        <div class="card-hint">回车即可提交 · 密码错误有红色警示提示</div>
+      </div>
+      <div class="login-panel" id="p3">
+        <div class="field">
+          <label>卡号</label>
+          <div class="input-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg><input placeholder="请先刷卡" readonly></div>
+        </div>
+        <div class="field">
+          <label>姓名 / 年龄</label>
+          <div class="input-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"/></svg><input placeholder="请输入姓名"></div>
+        </div>
+        <div class="field">
+          <label>部门</label>
+          <div class="input-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v11a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><input placeholder="请输入部门"></div>
+        </div>
+        <button class="btn-primary" onclick="alert('样例：注册成功！卡号已入库，默认余额 0 元')">注 册</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 主控页 ============ -->
+<div class="section">
+  <div class="section-title"><span class="dot"></span><h2>② 管理员主控（身份徽章 + 图标菜单 + 欢迎信息面板 + 表格状态着色）</h2><span class="note">优化前：welLabel 固定"您好"、菜单纯文字、表格无颜色</span></div>
+  <div class="app-window">
+    <div class="app-top">
+      <div class="brand"><div class="logo-sm">N</div><b>新卡智联</b></div>
+      <div class="spacer"></div>
+      <div class="who"><span class="avatar">R</span>管理员 root <span class="lvl-badge lvl-1">一级管理员</span></div>
+      <button class="btn-quit">安全退出</button>
+    </div>
+    <div class="app-body">
+      <div class="sidebar">
+        <div class="menu-group">
+          <div class="menu-title">一卡通管理</div>
+          <div class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>员工信息管理</div>
+          <div class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>考勤管理</div>
+          <div class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>商品管理</div>
+          <div class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>管理员信息管理</div>
+          <div class="menu-sub">
+            <div class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>管理员列表</div>
+            <div class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>管理员注册</div>
+          </div>
+          <div class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>串口配置</div>
+        </div>
+      </div>
+      <div class="main-area">
+        <div class="welcome-cards">
+          <div class="wc"><div class="k">当前身份</div><div class="v">root <small>一级管理员</small></div></div>
+          <div class="wc"><div class="k">串口状态</div><div class="v blue">COM5 <small>● 已连接 115200</small></div></div>
+          <div class="wc"><div class="k">系统时间</div><div class="v" id="clock">--:--:--</div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><b>今日考勤流水（状态着色示意）</b><button class="btn-ghost">刷新</button></div>
+          <table class="grid">
+            <thead><tr><th>卡号</th><th>姓名</th><th>部门</th><th>时间</th><th>状态</th></tr></thead>
+            <tbody>
+              <tr><td>c1-70-74-6</td><td>张三</td><td>技术部</td><td>08:56:32</td><td><span class="st st-in">签到</span></td></tr>
+              <tr><td>c2-3a-1f-9</td><td>李四</td><td>人事部</td><td>09:00:05</td><td><span class="st st-in">签到</span></td></tr>
+              <tr><td>c4-b2-0e-7</td><td>王五</td><td>财务部</td><td>09:27:41</td><td><span class="st st-late">签到(迟到)</span></td></tr>
+              <tr><td>c1-70-74-6</td><td>张三</td><td>技术部</td><td>18:02:11</td><td><span class="st st-out">签退</span></td></tr>
+              <tr><td>c2-3a-1f-9</td><td>李四</td><td>人事部</td><td>18:10:52</td><td><span class="st st-out">签退</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 管理员列表 ============ -->
+<div class="section">
+  <div class="section-title"><span class="dot"></span><h2>③ 管理员列表（复选框 + 权限徽章 + 按钮分级显隐）</h2><span class="note">优化前：无选择列、权限无视觉区分</span></div>
+  <div class="app-window" style="max-width:760px;margin:0 auto;">
+    <div class="app-top" style="border-bottom:none;background:transparent;">
+      <div class="brand"><div class="logo-sm" style="width:26px;height:26px;font-size:13px;">N</div><b style="font-size:14px;">管理员列表</b></div>
+      <div class="spacer"></div>
+      <button class="btn-ghost">刷新</button>
+      <button class="btn-ghost" style="border-color:var(--primary);color:var(--primary);" onclick="document.getElementById('dlg-level').style.display='block'">修改权限</button>
+      <button class="btn-danger-ghost" onclick="alert('样例：勾选多条 → 确认 → 逐条参数化删除（root 与当前账号受保护）')">删除管理员</button>
+      <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input placeholder="搜索用户名"></div>
+    </div>
+    <div style="padding:6px 16px 18px;">
+      <table class="grid">
+        <thead><tr><th style="width:44px;">选择</th><th>用户名</th><th>权限等级</th><th>操作提示</th></tr></thead>
+        <tbody>
+          <tr><td><input type="checkbox" class="chk" checked></td><td><b>root</b></td><td><span class="lvl-badge lvl-1">一级管理员</span></td><td style="color:var(--text-3);font-size:12px;">唯一一级 · 权限不可修改/删除</td></tr>
+          <tr><td><input type="checkbox" class="chk"></td><td>admin01</td><td><span class="lvl-badge lvl-2">二级管理员</span></td><td style="color:var(--text-3);font-size:12px;">仅注册管理员 · 可被 root 修改为三级</td></tr>
+          <tr><td><input type="checkbox" class="chk" checked></td><td>admin02</td><td><span class="lvl-badge lvl-3">三级管理员</span></td><td style="color:var(--text-3);font-size:12px;">仅查看列表 · "管理员注册"菜单已隐藏</td></tr>
+          <tr><td><input type="checkbox" class="chk"></td><td>admin03</td><td><span class="lvl-badge lvl-3">三级管理员</span></td><td style="color:var(--text-3);font-size:12px;">可被 root 提升为二级</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;font-size:12px;color:var(--text-3);">▲ 图中"修改权限 / 删除管理员"按钮仅一级管理员(root)可见 —— 二级/三级登录时自动隐藏</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 弹窗 ============ -->
+<div class="section">
+  <div class="section-title"><span class="dot"></span><h2>④ 弹窗统一（MessageBox 品牌化 + 修改权限对话框）</h2><span class="note">优化前：系统原生弹窗，与整体风格脱节</span></div>
+  <div class="dlg-row">
+    <div class="dlg">
+      <div class="dlg-body">
+        <div class="dlg-icon ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+        <div>
+          <div class="dlg-title">打卡成功</div>
+          <div class="dlg-text">张三 已签到<br>时间：2026-08-21 08:56:32</div>
+        </div>
+      </div>
+      <div class="dlg-btns"><button class="btn solid">确定</button></div>
+    </div>
+    <div class="dlg">
+      <div class="dlg-body">
+        <div class="dlg-icon warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
+        <div>
+          <div class="dlg-title">余额不足</div>
+          <div class="dlg-text">当前余额：6.00 元<br>所需金额：18.50 元<br><b style="color:var(--danger);">请先进行充值！</b></div>
+        </div>
+      </div>
+      <div class="dlg-btns"><button class="btn">取消</button><button class="btn solid">去充值</button></div>
+    </div>
+    <div class="dlg" id="dlg-level" style="display:none;">
+      <div class="dlg-body">
+        <div class="dlg-icon info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div>
+          <div class="dlg-title">修改权限</div>
+          <div class="dlg-text">将管理员 <b>admin02</b> 的权限修改为：</div>
+        </div>
+      </div>
+      <div class="dlg-form">
+        <div class="row"><label>权限等级</label><select class="sel"><option>二级管理员（可注册）</option><option selected>三级管理员（仅查看）</option></select></div>
+      </div>
+      <div class="dlg-btns"><button class="btn" onclick="document.getElementById('dlg-level').style.display='none'">取消</button><button class="btn solid" onclick="alert('样例：已将 admin02 修改为三级管理员，列表已刷新')">确定</button></div>
+    </div>
+    <div class="dlg">
+      <div class="dlg-body">
+        <div class="dlg-icon info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
+        <div>
+          <div class="dlg-title">提示</div>
+          <div class="dlg-text">三级管理员仅可查看管理员列表，<br>无注册与权限管理入口。</div>
+        </div>
+      </div>
+      <div class="dlg-btns"><button class="btn solid">知道了</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 色板 ============ -->
+<div class="section">
+  <div class="section-title"><span class="dot"></span><h2>⑤ 设计 Token 色板（全局 app.qss 引用）</h2></div>
+  <div class="palette">
+    <div class="sw"><div class="chip" style="background:#4287d8;"></div><div class="name">主色 Primary</div><div class="hex">#4287d8</div></div>
+    <div class="sw"><div class="chip" style="background:#27ae60;"></div><div class="name">成功 Success</div><div class="hex">#27ae60</div></div>
+    <div class="sw"><div class="chip" style="background:#f0ad4e;"></div><div class="name">警示 Warning</div><div class="hex">#f0ad4e</div></div>
+    <div class="sw"><div class="chip" style="background:#d9534f;"></div><div class="name">危险 Danger</div><div class="hex">#d9534f</div></div>
+    <div class="sw"><div class="chip" style="background:#5b9bd5;"></div><div class="name">信息 Info</div><div class="hex">#5b9bd5</div></div>
+    <div class="sw"><div class="chip" style="background:#222222;"></div><div class="name">文字主</div><div class="hex">#222222</div></div>
+    <div class="sw"><div class="chip" style="background:#999999;"></div><div class="name">文字弱</div><div class="hex">#999999</div></div>
+    <div class="sw"><div class="chip" style="background:rgba(255,255,255,.9);border:1px solid #d5dfeb;"></div><div class="name">卡片底</div><div class="hex">rgba(255,255,255,.86)</div></div>
+  </div>
+</div>
+
+<div class="foot">NexCard UI 优化样例 · 与《UI优化方案.md》配套使用 · 浅色主题 · 主色 #4287d8</div>
+
+<script>
+  // 登录 Tab 切换
+  const tabs = document.querySelectorAll('.login-tabs input');
+  tabs.forEach((t, i) => {
+    t.addEventListener('change', () => {
+      document.querySelectorAll('.login-panel').forEach((p, j) => p.classList.toggle('active', i === j));
+    });
+  });
+  // 时钟
+  function tick(){
+    const d = new Date();
+    document.getElementById('clock').textContent =
+      [d.getHours(), d.getMinutes(), d.getSeconds()].map(n => String(n).padStart(2,'0')).join(':');
+  }
+  tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>

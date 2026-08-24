@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UserPageWidget</class>
+ <widget class="QWidget" name="UserPageWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="topWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>1002</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QLabel" name="titleLabel_2">
+      <property name="text">
+       <string>新卡智联</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>777</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QLabel" name="welLabel_2">
+      <property name="text">
+       <string>您好</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="exitBtn_2">
+      <property name="text">
+       <string>安全退出</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="bottomWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>778</y>
+     <width>1002</width>
+     <height>10</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="middleWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>67</y>
+     <width>1002</width>
+     <height>704</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <widget class="QDockWidget" name="ngtDockWidget_2">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>135</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>524287</height>
+       </size>
+      </property>
+      <property name="allowedAreas">
+       <set>Qt::LeftDockWidgetArea</set>
+      </property>
+      <property name="windowTitle">
+       <string>新卡智联</string>
+      </property>
+      <widget class="QWidget" name="ngtDockWidgetContents_2">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QTreeWidget" name="ngtTreeWidget_2">
+          <property name="expandsOnDoubleClick">
+           <bool>true</bool>
+          </property>
+          <attribute name="headerVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>一卡通管理</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="pageTabWidget_2">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="documentMode">
+       <bool>true</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="pageTab_2">
+       <attribute name="title">
+        <string>欢迎使用</string>
+       </attribute>
+       <widget class="QLabel" name="label_2">
+        <property name="geometry">
+         <rect>
+          <x>151</x>
+          <y>154</y>
+          <width>201</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>欢迎使用</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

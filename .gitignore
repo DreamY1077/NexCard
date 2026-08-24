@@ -1,0 +1,43 @@
+# Qt / 构建产物
+build-*/
+*.user
+*.pro.user
+release/
+debug/
+*.autosave
+*.qmlc
+*.jsc
+Makefile*
+*.obj
+*.exe
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+
+# dlib 编译中间产物（源码 thirdparty/dlib 保留）
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.exp
+*.pdb
+*.ilk
+
+# 人脸模型（>100MB，超 GitHub 单文件限制；README 中提供下载链接）
+models/*.dat
+models/*.bz2
+
+# 运行时/调试数据
+mysql.db
+*.log
+core.*
+.vscode/
+.idea/
+
+# 本地备份与临时
+*.bak
+*~
+*.tmp
